@@ -196,8 +196,8 @@ const BLOCKS_DONE = 21;
 
 const PATTERNS = [
   { name:'Requirements',           status:S.IP, blockedBy:null,                        tier:1 },
-  { name:'Full Width Video',       status:S.IP, blockedBy:null,                        tier:1 },
-  { name:'Media Gallery',          status:S.PL, blockedBy:null,                        tier:1 },
+  { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
+  { name:'Media Gallery',          status:S.IP, blockedBy:null,                        tier:1 },
   { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
@@ -255,9 +255,9 @@ function cntDone(arr) { return arr.filter(x => x.status === S.D).length; }
 function renderItem(item, idx, showUnblocks) {
   const meta = [];
   if (item.note) meta.push(`<div class="pnote">${item.note}</div>`);
-  if (item.blockedBy) meta.push(`<div class="pdep"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Needs: ${item.blockedBy}</div>`);
+  if (item.blockedBy) meta.push(`<div class="pdep"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/></svg>Blocked by ${item.blockedBy}</div>`);
   if (showUnblocks && item.unblocks && item.unblocks.length) {
-    meta.push(`<div class="punb"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.2 1"/></svg> Unblocks: ${item.unblocks.join(', ')}</div>`);
+    meta.push(`<div class="punb"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/></svg>Unblocks ${item.unblocks.join(', ')}</div>`);
   }
   const lbl = SC[item.status]?.lbl || '';
   return `<div class="pi ${item.status}" role="listitem">
@@ -292,7 +292,7 @@ function render() {
     ...pat1.map((p, i) => renderItem(p, i + 1, false)),
     `<div class="tdiv" role="separator">
       <div class="tdiv-line"></div>
-      <span class="tdiv-lbl"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>&nbsp;Waiting on Blocks</span>
+      <span class="tdiv-lbl"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/></svg>Tier 2 - Blocked</span>
       <div class="tdiv-line"></div>
     </div>`,
     ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
@@ -328,7 +328,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${bDone}</div><div class="mc-of">of ${bTot} blocks</div></div>
-              <div class="mc-icon p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+              <div class="mc-icon p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 18 2 12 8 6"/></svg></div>
             </div>
             <div class="mc-lbl">Custom Blocks</div>
             <div class="mc-bar">
@@ -352,7 +352,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${plDone}</div><div class="mc-of">of ${plTot} plugins</div></div>
-              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 3v2m0 14v2M6.22 6.22l1.41 1.41m8.74 8.74l1.41 1.41M3 12h2m14 0h2M6.22 17.78l1.41-1.41m8.74-8.74l1.41-1.41"/></svg></div>
+              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 2v6"/><path d="M12 16v6"/><path d="M4.22 4.22l4.24 4.24"/><path d="M15.54 15.54l4.24 4.24"/><path d="M2 12h6"/><path d="M16 12h6"/><path d="M4.22 21.78l4.24-4.24"/><path d="M15.54 8.46l4.24-4.24"/></svg></div>
             </div>
             <div class="mc-lbl">Plugins</div>
             <div class="mc-bar">
@@ -430,7 +430,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Ian &middot; Custom Blocks</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 18 2 12 8 6"/></svg>Ian</div>
               <span class="wc-cnt">${BLOCKS.length} remaining</span>
             </div>
             <div class="wc-body" role="list">
@@ -440,7 +440,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Jasani &middot; Block Patterns</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Jasani</div>
               <span class="wc-cnt">${PATTERNS.length} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
@@ -448,7 +448,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>Corey &middot; Foundation + Plugins</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 2v6"/><path d="M12 16v6"/><path d="M4.22 4.22l4.24 4.24"/><path d="M15.54 15.54l4.24 4.24"/><path d="M2 12h6"/><path d="M16 12h6"/><path d="M4.22 21.78l4.24-4.24"/><path d="M15.54 8.46l4.24-4.24"/></svg>Corey</div>
               <span class="wc-cnt">${PLUGINS.length + FOUNDATION.length} items</span>
             </div>
             <div class="wc-body">
