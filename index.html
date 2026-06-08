@@ -186,8 +186,8 @@ svg {
 const S = { D:'done', IP:'in-progress', BL:'blocked', PL:'planning', NS:'not-started' };
 
 const BLOCKS = [
-  { name:'KPI',            status:S.IP, note:'In flight today',                unblocks:['KPI Pattern','KPIs Pattern'] },
-  { name:'KPI Group',      status:S.NS, note:null,                              unblocks:['KPIs Pattern'] },
+  { name:'KPI',            status:S.D, note:'Complete',                          unblocks:['KPI Pattern','KPIs Pattern'] },
+  { name:'KPI Group',      status:S.IP, note:null,                               unblocks:['KPIs Pattern'] },
   { name:'Faculty Staff',  status:S.NS, note:'Clean rebuild required',          unblocks:['Welcome Message','Related Faculty Staff'] },
   { name:'Icons',          status:S.NS, note:null,                              unblocks:['How to Apply Steps'] },
   { name:'Tabbed Content', status:S.NS, note:null,                              unblocks:[] },
@@ -197,16 +197,16 @@ const BLOCKS = [
   { name:'Anchors Menu',   status:S.NS, note:null,                              unblocks:[] },
   { name:'Modal Video',    status:S.NS, note:'Confirm link to video patterns',  unblocks:[] },
 ];
-const BLOCKS_DONE = 21;
+const BLOCKS_DONE = 22;
 
 const PATTERNS = [
-  { name:'Requirements',           status:S.IP, blockedBy:null,                        tier:1 },
-  { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Media Gallery',          status:S.IP, blockedBy:null,                        tier:1 },
+  { name:'Requirements',           status:S.D, blockedBy:null,                         tier:1 },
+  { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'KPI',                    status:S.BL, blockedBy:'KPI Block',                 tier:2 },
+  { name:'KPI',                    status:S.IP, blockedBy:null,                        tier:2 },
   { name:'KPIs',                   status:S.BL, blockedBy:'KPI + KPI Group',           tier:2 },
   { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
   { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
@@ -214,7 +214,7 @@ const PATTERNS = [
   { name:'Services + Resources',   status:S.BL, blockedBy:'Pattern-Inserter + Links',   tier:2 },
   { name:'How to Apply Steps',     status:S.BL, blockedBy:'Icons + Pattern-Inserter',   tier:2 },
 ];
-const PATTERNS_DONE = 15;
+const PATTERNS_DONE = 16;
 
 const PLUGINS = [
   { name:'Degrees + Programs Search', status:S.NS },
