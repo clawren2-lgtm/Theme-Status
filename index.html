@@ -186,18 +186,18 @@ svg {
 const S = { D:'done', IP:'in-progress', BL:'blocked', PL:'planning', NS:'not-started' };
 
 const BLOCKS = [
-  { name:'KPI Group',      status:S.IP, note:null,                               unblocks:['KPIs Pattern'] },
+  { name:'Tabbed Content', status:S.IP, note:null,                              unblocks:[] },
+  { name:'KPI Group',      status:S.D, note:null,                               unblocks:['KPIs Pattern'] },
   { name:'KPI',            status:S.D, note:'Complete',                          unblocks:['KPI Pattern','KPIs Pattern'] },
   { name:'Faculty Staff',  status:S.NS, note:'Clean rebuild required',          unblocks:['Welcome Message','Related Faculty Staff'] },
   { name:'Icons',          status:S.NS, note:null,                              unblocks:['How to Apply Steps'] },
-  { name:'Tabbed Content', status:S.NS, note:null,                              unblocks:[] },
   { name:'Tab Item',       status:S.NS, note:'Build with Tabbed Content',       unblocks:[] },
   { name:'Pagination',     status:S.NS, note:'Sean has prior work',             unblocks:['Query Templates'] },
   { name:'Days Until',     status:S.NS, note:'Confirm vs Countdown pattern',    unblocks:[] },
   { name:'Anchors Menu',   status:S.NS, note:null,                              unblocks:[] },
   { name:'Modal Video',    status:S.NS, note:'Confirm link to video patterns',  unblocks:[] },
 ];
-const BLOCKS_DONE = 22;
+const BLOCKS_DONE = 23;
 
 const PATTERNS = [
   { name:'Media Gallery',          status:S.IP, blockedBy:null,                        tier:1 },
@@ -207,14 +207,14 @@ const PATTERNS = [
   { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'KPIs',                   status:S.BL, blockedBy:'KPI + KPI Group',           tier:2 },
+  { name:'KPIs',                   status:S.IP, blockedBy:null,                        tier:2 },
   { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
   { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
   { name:'Keep Browsing',          status:S.BL, blockedBy:'Pattern-Inserter + Links',   tier:2 },
   { name:'Services + Resources',   status:S.BL, blockedBy:'Pattern-Inserter + Links',   tier:2 },
   { name:'How to Apply Steps',     status:S.BL, blockedBy:'Icons + Pattern-Inserter',   tier:2 },
 ];
-const PATTERNS_DONE = 16;
+const PATTERNS_DONE = 17;
 
 const PLUGINS = [
   { name:'Degrees + Programs Search', status:S.NS },
@@ -260,9 +260,9 @@ function cntDone(arr) { return arr.filter(x => x.status === S.D).length; }
 function renderItem(item, idx, showUnblocks) {
   const meta = [];
   if (item.note) meta.push(`<div class="pnote">${item.note}</div>`);
-  if (item.blockedBy) meta.push(`<div class="pdep"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><path d="M17 8V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3"/></svg>Blocked by ${item.blockedBy}</div>`);
+  if (item.blockedBy) meta.push(`<div class="pdep"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><rect x="3" y="4" width="18" height="2"/><path d="M9 19h6"/></svg> ${item.blockedBy}</div>`);
   if (showUnblocks && item.unblocks && item.unblocks.length) {
-    meta.push(`<div class="punb"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><path d="M17 16v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/></svg>Unblocks ${item.unblocks.join(', ')}</div>`);
+    meta.push(`<div class="punb"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><rect x="3" y="4" width="18" height="2"/><path d="M9 19h6"/></svg> Unblocks: ${item.unblocks.join(', ')}</div>`);
   }
   const lbl = SC[item.status]?.lbl || '';
   return `<div class="pi ${item.status}" role="listitem">
@@ -297,7 +297,7 @@ function render() {
     ...pat1.map((p, i) => renderItem(p, i + 1, false)),
     `<div class="tdiv" role="separator">
       <div class="tdiv-line"></div>
-      <span class="tdiv-lbl"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/></svg>BLOCKED DEPENDENCIES</span>
+      <span class="tdiv-lbl"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><circle cx="12" cy="3" r="1"/><circle cx="12" cy="20" r="1"/></svg> Blocked by Dependencies</span>
       <div class="tdiv-line"></div>
     </div>`,
     ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
@@ -357,7 +357,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${plDone}</div><div class="mc-of">of ${plTot} plugins</div></div>
-              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 3v2m0 12v2m6-9h-2m-12 0H3m10.828-9.657l-1.414 1.414m8.485 8.485l1.414 1.414M6.343 18.485l-1.414-1.414m8.485-8.485l1.414-1.414"/></svg></div>
+              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 1v6m4.22-4.22l-4.24 4.24m6 4.22h-6m0 6v-6m-4.22 4.22l4.24-4.24m-6-4.22h6"/></svg></div>
             </div>
             <div class="mc-lbl">Plugins</div>
             <div class="mc-bar">
@@ -369,7 +369,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${qtDone}</div><div class="mc-of">of ${qtTot} templates</div></div>
-              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 19 14 12.46 22 3"/></svg></div>
+              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
             </div>
             <div class="mc-lbl">Query Templates</div>
             <div class="mc-bar">
@@ -435,7 +435,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Ian's Blocks</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Custom Blocks</div>
               <span class="wc-cnt">${BLOCKS.length} remaining</span>
             </div>
             <div class="wc-body" role="list">
@@ -445,7 +445,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Jasani's Patterns</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Block Patterns</div>
               <span class="wc-cnt">${PATTERNS.length} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
@@ -453,7 +453,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m4.22-13.22l-4.24 4.24m0 5.96l4.24 4.24M4.34 4.34l4.24 4.24m0 5.96L4.34 18.66"/></svg>Corey</div>
+              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> Plugins + Foundation</div>
               <span class="wc-cnt">${PLUGINS.length + FOUNDATION.length} items</span>
             </div>
             <div class="wc-body">
@@ -472,7 +472,7 @@ function render() {
         <div class="g5">
           ${QUERY_TEMPLATES.map(q => `
             <div class="qtc">
-              <div class="qt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 19 14 12.46 22 3"/></svg></div>
+              <div class="qt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
               <div class="qt-name">${q.name}</div>
               <div class="qt-st">${SC[q.status]?.lbl || 'Not started'}</div>
             </div>`).join('')}
