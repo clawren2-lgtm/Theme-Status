@@ -223,9 +223,14 @@ const SC = {
 
 function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
 
-// Generic counter utility so we dynamically count by checking the assigned class status
+// Generic counter utility to count by assigned class
 function countStatus(arr, statusClass) { 
   return arr.filter(x => x.status === statusClass).length; 
+}
+
+// Utility to count everything that IS NOT done (gives true remaining count)
+function countRemaining(arr) {
+  return arr.filter(x => x.status !== S.D).length;
 }
 
 function renderItem(item, idx, showUnblocks) {
@@ -409,7 +414,7 @@ function render() {
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-cube"></i> Custom Blocks</div>
-              <span class="wc-cnt">${countStatus(BLOCKS, S.IP)} in progress &middot; ${countStatus(BLOCKS, S.NS)} remaining</span>
+              <span class="wc-cnt">${countStatus(BLOCKS, S.IP)} in progress &middot; ${countRemaining(BLOCKS)} remaining</span>
             </div>
             <div class="wc-body" role="list">
               ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
@@ -419,7 +424,7 @@ function render() {
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-th"></i> Block Patterns</div>
-              <span class="wc-cnt">${countStatus(PATTERNS, S.IP)} in progress &middot; ${countStatus(PATTERNS, S.NS)} remaining</span>
+              <span class="wc-cnt">${countStatus(PATTERNS, S.IP)} in progress &middot; ${countRemaining(PATTERNS)} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
           </div>
@@ -427,7 +432,7 @@ function render() {
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-cogs"></i> Plugins + Foundation</div>
-              <span class="wc-cnt">${countStatus(PLUGINS, S.IP) + countStatus(FOUNDATION, S.IP)} in progress &middot; ${countStatus(PLUGINS, S.NS) + countStatus(FOUNDATION, S.NS)} remaining</span>
+              <span class="wc-cnt">${countStatus(PLUGINS, S.IP) + countStatus(FOUNDATION, S.IP)} in progress &middot; ${countRemaining(PLUGINS) + countRemaining(FOUNDATION)} remaining</span>
             </div>
             <div class="wc-body">
               <div class="sh first" role="heading" aria-level="3">Plugins</div>
@@ -441,7 +446,7 @@ function render() {
       </div>
 
       <div role="region" aria-label="Query templates">
-        <div class="sec-lbl">Query Templates &middot; ${countStatus(QUERY_TEMPLATES, S.NS)} remaining</div>
+        <div class="sec-lbl">Query Templates &middot; ${countRemaining(QUERY_TEMPLATES)} remaining</div>
         <div class="g5">
           ${QUERY_TEMPLATES.map(q => `
             <div class="qtc">
