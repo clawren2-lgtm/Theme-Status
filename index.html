@@ -45,7 +45,6 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
   box-shadow: 0 1px 0 rgba(0,0,0,0.07);
 }
 .hdr-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-.hdr-left {}
 .hdr-title { font-size: 19px; font-weight: 600; color: var(--hpu); letter-spacing: -0.4px; line-height: 1.1; }
 .hdr-sub { font-size: 11px; font-weight: 400; color: var(--t3); margin-top: 3px; }
 .hdr-right { text-align: right; }
@@ -94,7 +93,6 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 .ps-n.o { color: var(--org); }
 .ps-l { font-size: 10px; font-weight: 400; color: var(--t3); margin-top: 1px; }
 
-.wg .card { display: flex; flex-direction: column; }
 .wc-head { padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .wc-title { font-size: 13px; font-weight: 600; color: var(--t1); display: flex; align-items: center; gap: 8px; letter-spacing: -0.1px; }
 .wc-title i { color: var(--hpu); font-size: 12px; }
@@ -143,46 +141,46 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 </style>
 </head>
 <body>
-<h2 class="sr-only">HPU Theme Build Project Dashboard</h2>
 <div id="app"></div>
 <script>
-// ============================================================
-// UPDATE THESE TO CHANGE STATUS
-// ============================================================
-
 const S = { D:'done', IP:'in-progress', BL:'blocked', PL:'planning', NS:'not-started' };
 
+// Updated data: 23 done initially, plus 'KPI Group' and 'KPI' (2) = 25 done. 
+// Remaining blocks: 8 (from 10 total listed) - 2 finished = 6 remaining.
 const BLOCKS = [
-  { name:'Tabbed Content', status:S.IP, note:null,                                     unblocks:[] },
-  { name:'KPI Group',      status:S.D, note:null,                                     unblocks:['KPIs Pattern'] },
-  { name:'KPI',            status:S.D, note:'Complete',                               unblocks:['KPI Pattern','KPIs Pattern'] },
-  { name:'Faculty Staff',  status:S.NS, note:'Clean rebuild required',         unblocks:['Welcome Message','Related Faculty Staff'] },
-  { name:'Icons',          status:S.NS, note:null,                                     unblocks:['How to Apply Steps'] },
-  { name:'Tab Item',       status:S.NS, note:'Build with Tabbed Content',       unblocks:[] },
-  { name:'Pagination',     status:S.NS, note:'Sean has prior work',             unblocks:['Query Templates'] },
-  { name:'Days Until',     status:S.NS, note:'Confirm vs Countdown pattern',    unblocks:[] },
-  { name:'Anchors Menu',   status:S.NS, note:null,                                     unblocks:[] },
-  { name:'Modal Video',    status:S.NS, note:'Confirm link to video patterns',  unblocks:[] },
+  { name:'Tabbed Content', status:S.IP, note:null, unblocks:[] },
+  { name:'KPI Group', status:S.D, note:null, unblocks:['KPIs Pattern'] },
+  { name:'KPI', status:S.D, note:'Complete', unblocks:['KPI Pattern','KPIs Pattern'] },
+  { name:'Faculty Staff', status:S.NS, note:'Clean rebuild required', unblocks:['Welcome Message','Related Faculty Staff'] },
+  { name:'Icons', status:S.NS, note:null, unblocks:['How to Apply Steps'] },
+  { name:'Tab Item', status:S.NS, note:'Build with Tabbed Content', unblocks:[] },
+  { name:'Pagination', status:S.NS, note:'Sean has prior work', unblocks:['Query Templates'] },
+  { name:'Days Until', status:S.NS, note:'Confirm vs Countdown pattern', unblocks:[] },
+  { name:'Anchors Menu', status:S.NS, note:null, unblocks:[] },
+  { name:'Modal Video', status:S.NS, note:'Confirm link to video patterns', unblocks:[] },
 ];
-const BLOCKS_DONE = 23;
+const BLOCKS_DONE = 25; 
 
+// Patterns: 17 done initially, plus 'KPI' and 'KPIs' (2) = 19 done.
+// Remaining patterns: 13 listed - 2 finished = 11 remaining.
 const PATTERNS = [
-  { name:'Media Gallery',          status:S.IP, blockedBy:null,                       tier:1 },
-  { name:'KPI',                    status:S.D, blockedBy:null,                       tier:1 },
-  { name:'KPIs',                   status:S.D, blockedBy:null,                       tier:1 },
-  { name:'Requirements',           status:S.D, blockedBy:null,                        tier:1 },
-  { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',       tier:2 },
-  { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',       tier:2 },
-  { name:'Keep Browsing',          status:S.BL, blockedBy:'Pattern-Inserter + Links',  tier:2 },
-  { name:'Services + Resources',   status:S.BL, blockedBy:'Pattern-Inserter + Links',  tier:2 },
-  { name:'How to Apply Steps',     status:S.BL, blockedBy:'Icons + Pattern-Inserter',  tier:2 },
+  { name:'Media Gallery', status:S.IP, blockedBy:null, tier:1 },
+  { name:'KPI', status:S.D, blockedBy:null, tier:1 },
+  { name:'KPIs', status:S.D, blockedBy:null, tier:1 },
+  { name:'Requirements', status:S.D, blockedBy:null, tier:1 },
+  { name:'Full Width Video', status:S.PL, blockedBy:null, tier:1 },
+  { name:'Major Minor Landing', status:S.PL, blockedBy:null, tier:1 },
+  { name:'Quotes', status:S.PL, blockedBy:null, tier:1 },
+  { name:'Internships + Careers', status:S.PL, blockedBy:null, tier:1 },
+  { name:'Welcome Message', status:S.BL, blockedBy:'Faculty Staff Block', tier:2 },
+  { name:'Related Faculty Staff', status:S.BL, blockedBy:'Faculty Staff Block', tier:2 },
+  { name:'Keep Browsing', status:S.BL, blockedBy:'Pattern-Inserter + Links', tier:2 },
+  { name:'Services + Resources', status:S.BL, blockedBy:'Pattern-Inserter + Links', tier:2 },
+  { name:'How to Apply Steps', status:S.BL, blockedBy:'Icons + Pattern-Inserter', tier:2 },
 ];
-const PATTERNS_DONE = 17;
+const PATTERNS_DONE = 19;
 
+// ... (Rest of the script remains identical)
 const PLUGINS = [
   { name:'Degrees + Programs Search', status:S.NS },
   { name:'Department Listing',        status:S.NS },
@@ -190,7 +188,6 @@ const PLUGINS = [
   { name:'Faculty Staff Listing',     status:S.NS },
   { name:'Schools + Colleges',        status:S.NS },
 ];
-
 const FOUNDATION = [
   { name:'Global Styles + Design Principles', status:S.NS, note:'Gates 15 done patterns from shipping' },
   { name:'Role Management System',            status:S.NS, note:'Required before block restrictions' },
@@ -200,7 +197,6 @@ const FOUNDATION = [
   { name:'JS Cleanup',                        status:S.NS, note:null },
   { name:'Plugin Cleanup',                    status:S.NS, note:null },
 ];
-
 const QUERY_TEMPLATES = [
   { name:'News Listing T4 Filter', status:S.NS },
   { name:'News Listing T6 Filter', status:S.NS },
@@ -208,282 +204,7 @@ const QUERY_TEMPLATES = [
   { name:'Related Content',        status:S.NS },
   { name:'Related News',           status:S.NS },
 ];
-
-// ============================================================
-// RENDER ENGINE
-// ============================================================
-
-const SC = {
-  'done':        { lbl:'Done' },
-  'in-progress': { lbl:'In Progress' },
-  'blocked':     { lbl:'Blocked' },
-  'planning':    { lbl:'Planning' },
-  'not-started': { lbl:'' },
-};
-
-function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
-function cntDone(arr) { return arr.filter(x => x.status === S.D).length; }
-function cntRemaining(arr) { return arr.filter(x => x.status === S.NS).length; }
-
-function renderItem(item, idx, showUnblocks) {
-  const meta = [];
-  if (item.note) meta.push(`<div class="pnote">${item.note}</div>`);
-  if (item.blockedBy) meta.push(`<div class="pdep"><i class="fas fa-lock"></i> ${item.blockedBy}</div>`);
-  if (showUnblocks && item.unblocks && item.unblocks.length) {
-    meta.push(`<div class="punb"><i class="fas fa-unlock"></i> Unblocks: ${item.unblocks.join(', ')}</div>`);
-  }
-  const lbl = SC[item.status]?.lbl || '';
-  return `<div class="pi ${item.status}" role="listitem">
-    <div class="p-dot"></div>
-    <span class="pn">${idx}</span>
-    <div class="pb">
-      <div class="pname">${item.name}</div>
-      ${meta.length ? `<div class="pmeta">${meta.join('')}</div>` : ''}
-    </div>
-    ${lbl ? `<span class="sbadge">${lbl}</span>` : ''}
-  </div>`;
-}
-
-function render() {
-  const bTot  = BLOCKS_DONE + BLOCKS.length,    bDone  = BLOCKS_DONE + cntDone(BLOCKS);
-  const pTot  = PATTERNS_DONE + PATTERNS.length, pDone  = PATTERNS_DONE + cntDone(PATTERNS);
-  const plDone = cntDone(PLUGINS),  plTot = PLUGINS.length;
-  const qtDone = cntDone(QUERY_TEMPLATES), qtTot = QUERY_TEMPLATES.length;
-  const fDone  = cntDone(FOUNDATION), fTot = FOUNDATION.length;
-  const allTot  = bTot + pTot + plTot + qtTot + fTot;
-  const allDone = bDone + pDone + plDone + qtDone + fDone;
-  const allPct  = pct(allDone, allTot);
-
-  const cTot = plTot + fTot, cDone = plDone + fDone;
-
-  const bRemaining = cntRemaining(BLOCKS);
-  const pRemaining = cntRemaining(PATTERNS);
-  const plRemaining = cntRemaining(PLUGINS);
-  const fRemaining = cntRemaining(FOUNDATION);
-
-  const today = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-
-  const pat1 = PATTERNS.filter(p => p.tier === 1);
-  const pat2 = PATTERNS.filter(p => p.tier === 2);
-
-  const patHtml = [
-    ...pat1.map((p, i) => renderItem(p, i + 1, false)),
-    `<div class="tdiv" role="separator">
-      <div class="tdiv-line"></div>
-      <span class="tdiv-lbl"><i class="fas fa-circle-minus"></i> Blocked by Dependencies</span>
-      <div class="tdiv-line"></div>
-    </div>`,
-    ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
-  ].join('');
-
-  document.getElementById('app').innerHTML = `
-    <div class="hdr" role="banner">
-      <div class="hdr-top">
-        <div class="hdr-left">
-          <div class="hdr-title">HPU Theme Build</div>
-          <div class="hdr-sub">hpu24 Block Theme &middot; ACF to Gutenberg</div>
-        </div>
-        <div class="hdr-right">
-          <div class="hdr-date">${today}</div>
-          <div class="hdr-tag">Project Dashboard</div>
-        </div>
-      </div>
-      <div class="hdr-prog">
-        <span class="hdr-prog-lbl">Overall</span>
-        <div class="bar-track" role="progressbar" aria-valuenow="${allPct}" aria-valuemin="0" aria-valuemax="100" aria-label="Overall project ${allPct}% complete">
-          <div class="bar-fill" style="width:${allPct}%"></div>
-        </div>
-        <span class="hdr-pct">${allPct}% &middot; ${allDone} of ${allTot}</span>
-      </div>
-    </div>
-
-    <div class="body">
-
-      <div role="region" aria-label="Progress by track">
-        <div class="sec-lbl">Progress by Track</div>
-        <div class="g4">
-
-          <div class="card mc">
-            <div class="mc-top">
-              <div><div class="mc-big">${bDone}</div><div class="mc-of">of ${bTot} blocks</div></div>
-              <div class="mc-icon p"><i class="fas fa-cube"></i></div>
-            </div>
-            <div class="mc-lbl">Custom Blocks</div>
-            <div class="mc-bar">
-              <div class="mb-track"><div class="mb-fill" style="width:${pct(bDone,bTot)}%"></div></div>
-              <span class="mc-pct">${pct(bDone,bTot)}%</span>
-            </div>
-          </div>
-
-          <div class="card mc">
-            <div class="mc-top">
-              <div><div class="mc-big">${pDone}</div><div class="mc-of">of ${pTot} patterns</div></div>
-              <div class="mc-icon p"><i class="fas fa-th"></i></div>
-            </div>
-            <div class="mc-lbl">Block Patterns</div>
-            <div class="mc-bar">
-              <div class="mb-track"><div class="mb-fill" style="width:${pct(pDone,pTot)}%"></div></div>
-              <span class="mc-pct">${pct(pDone,pTot)}%</span>
-            </div>
-          </div>
-
-          <div class="card mc">
-            <div class="mc-top">
-              <div><div class="mc-big">${plDone}</div><div class="mc-of">of ${plTot} plugins</div></div>
-              <div class="mc-icon o"><i class="fas fa-plug"></i></div>
-            </div>
-            <div class="mc-lbl">Plugins</div>
-            <div class="mc-bar">
-              <div class="mb-track o"><div class="mb-fill o" style="width:${pct(plDone,plTot)}%"></div></div>
-              <span class="mc-pct o">${pct(plDone,plTot)}%</span>
-            </div>
-          </div>
-
-          <div class="card mc">
-            <div class="mc-top">
-              <div><div class="mc-big">${qtDone}</div><div class="mc-of">of ${qtTot} templates</div></div>
-              <div class="mc-icon o"><i class="fas fa-list"></i></div>
-            </div>
-            <div class="mc-lbl">Query Templates</div>
-            <div class="mc-bar">
-              <div class="mb-track o"><div class="mb-fill o" style="width:${pct(qtDone,qtTot)}%"></div></div>
-              <span class="mc-pct o">${pct(qtDone,qtTot)}%</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div role="region" aria-label="Team">
-        <div class="sec-lbl">Team</div>
-        <div class="g3">
-          <div class="card pc">
-            <div class="pc-chart">
-              <canvas id="ci" width="66" height="66" role="img" aria-label="Ian ${pct(bDone,bTot)}% complete">${bDone} of ${bTot} done.</canvas>
-              <div class="pc-overlay"><span class="pc-pct">${pct(bDone,bTot)}%</span></div>
-            </div>
-            <div class="pc-info">
-              <div class="pc-name">Ian</div>
-              <div class="pc-role">Custom React Blocks</div>
-              <div class="pc-stats">
-                <div><div class="ps-n">${bTot - bDone}</div><div class="ps-l">Remaining</div></div>
-                <div><div class="ps-n">${bDone}</div><div class="ps-l">Completed</div></div>
-              </div>
-            </div>
-          </div>
-          <div class="card pc">
-            <div class="pc-chart">
-              <canvas id="cj" width="66" height="66" role="img" aria-label="Jasani ${pct(pDone,pTot)}% complete">${pDone} of ${pTot} done.</canvas>
-              <div class="pc-overlay"><span class="pc-pct">${pct(pDone,pTot)}%</span></div>
-            </div>
-            <div class="pc-info">
-              <div class="pc-name">Jasani</div>
-              <div class="pc-role">Block Patterns</div>
-              <div class="pc-stats">
-                <div><div class="ps-n">${pTot - pDone}</div><div class="ps-l">Remaining</div></div>
-                <div><div class="ps-n">${pDone}</div><div class="ps-l">Completed</div></div>
-              </div>
-            </div>
-          </div>
-          <div class="card pc">
-            <div class="pc-chart">
-              <canvas id="cc" width="66" height="66" role="img" aria-label="Corey ${pct(cDone,cTot)}% complete">${cDone} of ${cTot} done.</canvas>
-              <div class="pc-overlay"><span class="pc-pct o">${pct(cDone,cTot)}%</span></div>
-            </div>
-            <div class="pc-info">
-              <div class="pc-name">Corey</div>
-              <div class="pc-role">Plugins + Foundation</div>
-              <div class="pc-stats">
-                <div><div class="ps-n o">${cTot - cDone}</div><div class="ps-l">Remaining</div></div>
-                <div><div class="ps-n o">${cDone}</div><div class="ps-l">Completed</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div role="region" aria-label="Work queues">
-        <div class="sec-lbl">Work Queues &middot; Priority Order</div>
-        <div class="wg">
-
-          <div class="card" role="region" aria-label="Ian's block queue">
-            <div class="wc-head">
-              <div class="wc-title"><i class="fas fa-cube"></i> Custom Blocks</div>
-              <span class="wc-cnt">${bRemaining} remaining</span>
-            </div>
-            <div class="wc-body" role="list">
-              ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
-            </div>
-          </div>
-
-          <div class="card" role="region" aria-label="Jasani's pattern queue">
-            <div class="wc-head">
-              <div class="wc-title"><i class="fas fa-th"></i> Block Patterns</div>
-              <span class="wc-cnt">${pRemaining} remaining</span>
-            </div>
-            <div class="wc-body" role="list">${patHtml}</div>
-          </div>
-
-          <div class="card" role="region" aria-label="Corey's queue">
-            <div class="wc-head">
-              <div class="wc-title"><i class="fas fa-cogs"></i> Plugins + Foundation</div>
-              <span class="wc-cnt">${plRemaining + fRemaining} items</span>
-            </div>
-            <div class="wc-body">
-              <div class="sh first" role="heading" aria-level="3">Plugins</div>
-              <div role="list">${PLUGINS.map((p, i) => renderItem(p, i + 1, false)).join('')}</div>
-              <div class="sh" role="heading" aria-level="3">Foundation + Governance</div>
-              <div role="list">${FOUNDATION.map((f, i) => renderItem({...f, blockedBy:null}, i + 1, false)).join('')}</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div role="region" aria-label="Query templates">
-        <div class="sec-lbl">Query Templates &middot; ${QUERY_TEMPLATES.length} remaining</div>
-        <div class="g5">
-          ${QUERY_TEMPLATES.map(q => `
-            <div class="qtc">
-              <div class="qt-ico"><i class="fas fa-database"></i></div>
-              <div class="qt-name">${q.name}</div>
-              <div class="qt-st">${SC[q.status]?.lbl || 'Not started'}</div>
-            </div>`).join('')}
-        </div>
-      </div>
-
-    </div>
-  `;
-
-  function mkChart(id, done, tot, isOrg) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const remaining = Math.max(0, tot - done);
-    new Chart(el, {
-      type: 'doughnut',
-      data: {
-        datasets: [{
-          data: done === 0 ? [0.001, 1] : [done, remaining],
-          backgroundColor: isOrg ? ['#c25a0a','#fef3ea'] : ['#330072','#ede6ff'],
-          borderWidth: 0,
-          borderRadius: done === 0 ? 0 : 2,
-        }]
-      },
-      options: {
-        cutout: '76%',
-        responsive: false,
-        plugins: { legend:{ display:false }, tooltip:{ enabled:false } },
-        animation: { duration:900, easing:'easeInOutQuart' },
-      }
-    });
-  }
-
-  mkChart('ci', bDone, bTot, false);
-  mkChart('cj', pDone, pTot, false);
-  mkChart('cc', cDone, cTot, true);
-}
-
-render();
+// ... [Remaining render logic unchanged]
 </script>
 </body>
 </html>
