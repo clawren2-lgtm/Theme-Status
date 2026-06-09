@@ -147,39 +147,39 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 <div id="app"></div>
 <script>
 // ============================================================
-// UPDATE THESE TO CHANGE STATUS
+// STATE & DATA
 // ============================================================
 
 const S = { D:'done', IP:'in-progress', BL:'blocked', PL:'planning', NS:'not-started' };
 
 const BLOCKS = [
-  { name:'Tabbed Content', status:S.IP, note:null,                                     unblocks:[] },
-  { name:'KPI Group',      status:S.D, note:null,                                     unblocks:['KPIs Pattern'] },
-  { name:'KPI',            status:S.D, note:'Complete',                               unblocks:['KPI Pattern','KPIs Pattern'] },
-  { name:'Faculty Staff',  status:S.NS, note:'Clean rebuild required',         unblocks:['Welcome Message','Related Faculty Staff'] },
-  { name:'Icons',          status:S.NS, note:null,                                     unblocks:['How to Apply Steps'] },
-  { name:'Tab Item',       status:S.NS, note:'Build with Tabbed Content',       unblocks:[] },
-  { name:'Pagination',     status:S.NS, note:'Sean has prior work',             unblocks:['Query Templates'] },
-  { name:'Days Until',     status:S.NS, note:'Confirm vs Countdown pattern',    unblocks:[] },
-  { name:'Anchors Menu',   status:S.NS, note:null,                                     unblocks:[] },
-  { name:'Modal Video',    status:S.NS, note:'Confirm link to video patterns',  unblocks:[] },
+  { name:'Icons',          status:S.IP, note:null,                               unblocks:['How to Apply Steps'] },
+  { name:'Tabbed Content', status:S.D, note:null,                                unblocks:[] },
+  { name:'KPI Group',      status:S.D, note:null,                                unblocks:['KPIs Pattern'] },
+  { name:'KPI',            status:S.D, note:'Complete',                          unblocks:['KPI Pattern','KPIs Pattern'] },
+  { name:'Faculty Staff',  status:S.NS, note:'Clean rebuild required',           unblocks:['Welcome Message','Related Faculty Staff'] },
+  { name:'Tab Item',       status:S.NS, note:'Build with Tabbed Content',        unblocks:[] },
+  { name:'Pagination',     status:S.NS, note:'Sean has prior work',              unblocks:['Query Templates'] },
+  { name:'Days Until',     status:S.NS, note:'Confirm vs Countdown pattern',     unblocks:[] },
+  { name:'Anchors Menu',   status:S.NS, note:null,                               unblocks:[] },
+  { name:'Modal Video',    status:S.NS, note:'Confirm link to video patterns',   unblocks:[] },
 ];
-const BLOCKS_DONE = 23;
+const BLOCKS_DONE = 23; 
 
 const PATTERNS = [
   { name:'Media Gallery',          status:S.IP, blockedBy:null,                       tier:1 },
-  { name:'KPI',                    status:S.D, blockedBy:null,                       tier:1 },
-  { name:'KPIs',                   status:S.D, blockedBy:null,                       tier:1 },
+  { name:'KPI',                    status:S.D, blockedBy:null,                        tier:1 },
+  { name:'KPIs',                   status:S.D, blockedBy:null,                        tier:1 },
   { name:'Requirements',           status:S.D, blockedBy:null,                        tier:1 },
-  { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',       tier:2 },
-  { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',       tier:2 },
-  { name:'Keep Browsing',          status:S.BL, blockedBy:'Pattern-Inserter + Links',  tier:2 },
-  { name:'Services + Resources',   status:S.BL, blockedBy:'Pattern-Inserter + Links',  tier:2 },
-  { name:'How to Apply Steps',     status:S.BL, blockedBy:'Icons + Pattern-Inserter',  tier:2 },
+  { name:'Full Width Video',       status:S.PL, blockedBy:null,                       tier:1 },
+  { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                       tier:1 },
+  { name:'Quotes',                 status:S.PL, blockedBy:null,                       tier:1 },
+  { name:'Internships + Careers',  status:S.PL, blockedBy:null,                       tier:1 },
+  { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',      tier:2 },
+  { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',      tier:2 },
+  { name:'Keep Browsing',          status:S.BL, blockedBy:'Pattern-Inserter + Links', tier:2 },
+  { name:'Services + Resources',   status:S.BL, blockedBy:'Pattern-Inserter + Links', tier:2 },
+  { name:'How to Apply Steps',     status:S.BL, blockedBy:'Icons + Pattern-Inserter', tier:2 },
 ];
 const PATTERNS_DONE = 17;
 
@@ -222,8 +222,11 @@ const SC = {
 };
 
 function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
-function cntDone(arr) { return arr.filter(x => x.status === S.D).length; }
-function cntRemaining(arr) { return arr.filter(x => x.status === S.NS).length; }
+
+// Generic counter utility so we dynamically count by checking the assigned class status
+function countStatus(arr, statusClass) { 
+  return arr.filter(x => x.status === statusClass).length; 
+}
 
 function renderItem(item, idx, showUnblocks) {
   const meta = [];
@@ -245,21 +248,18 @@ function renderItem(item, idx, showUnblocks) {
 }
 
 function render() {
-  const bTot  = BLOCKS_DONE + BLOCKS.length,    bDone  = BLOCKS_DONE + cntDone(BLOCKS);
-  const pTot  = PATTERNS_DONE + PATTERNS.length, pDone  = PATTERNS_DONE + cntDone(PATTERNS);
-  const plDone = cntDone(PLUGINS),  plTot = PLUGINS.length;
-  const qtDone = cntDone(QUERY_TEMPLATES), qtTot = QUERY_TEMPLATES.length;
-  const fDone  = cntDone(FOUNDATION), fTot = FOUNDATION.length;
+  // Aggregate Totals & Done Math
+  const bTot  = BLOCKS_DONE + BLOCKS.length,     bDone  = BLOCKS_DONE + countStatus(BLOCKS, S.D);
+  const pTot  = PATTERNS_DONE + PATTERNS.length, pDone  = PATTERNS_DONE + countStatus(PATTERNS, S.D);
+  const plTot = PLUGINS.length,                  plDone = countStatus(PLUGINS, S.D);
+  const qtTot = QUERY_TEMPLATES.length,          qtDone = countStatus(QUERY_TEMPLATES, S.D);
+  const fTot  = FOUNDATION.length,               fDone  = countStatus(FOUNDATION, S.D);
+  
   const allTot  = bTot + pTot + plTot + qtTot + fTot;
   const allDone = bDone + pDone + plDone + qtDone + fDone;
   const allPct  = pct(allDone, allTot);
 
   const cTot = plTot + fTot, cDone = plDone + fDone;
-
-  const bRemaining = cntRemaining(BLOCKS);
-  const pRemaining = cntRemaining(PATTERNS);
-  const plRemaining = cntRemaining(PLUGINS);
-  const fRemaining = cntRemaining(FOUNDATION);
 
   const today = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 
@@ -409,7 +409,7 @@ function render() {
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-cube"></i> Custom Blocks</div>
-              <span class="wc-cnt">${bRemaining} remaining</span>
+              <span class="wc-cnt">${countStatus(BLOCKS, S.IP)} in progress &middot; ${countStatus(BLOCKS, S.NS)} remaining</span>
             </div>
             <div class="wc-body" role="list">
               ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
@@ -419,7 +419,7 @@ function render() {
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-th"></i> Block Patterns</div>
-              <span class="wc-cnt">${pRemaining} remaining</span>
+              <span class="wc-cnt">${countStatus(PATTERNS, S.IP)} in progress &middot; ${countStatus(PATTERNS, S.NS)} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
           </div>
@@ -427,7 +427,7 @@ function render() {
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
               <div class="wc-title"><i class="fas fa-cogs"></i> Plugins + Foundation</div>
-              <span class="wc-cnt">${plRemaining + fRemaining} items</span>
+              <span class="wc-cnt">${countStatus(PLUGINS, S.IP) + countStatus(FOUNDATION, S.IP)} in progress &middot; ${countStatus(PLUGINS, S.NS) + countStatus(FOUNDATION, S.NS)} remaining</span>
             </div>
             <div class="wc-body">
               <div class="sh first" role="heading" aria-level="3">Plugins</div>
@@ -441,7 +441,7 @@ function render() {
       </div>
 
       <div role="region" aria-label="Query templates">
-        <div class="sec-lbl">Query Templates &middot; ${QUERY_TEMPLATES.length} remaining</div>
+        <div class="sec-lbl">Query Templates &middot; ${countStatus(QUERY_TEMPLATES, S.NS)} remaining</div>
         <div class="g5">
           ${QUERY_TEMPLATES.map(q => `
             <div class="qtc">
