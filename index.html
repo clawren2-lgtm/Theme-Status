@@ -11,6 +11,7 @@
 <title>HPU Theme Build · Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
@@ -68,7 +69,7 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 .mc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
 .mc-big { font-size: 28px; font-weight: 600; color: var(--t1); line-height: 1; letter-spacing: -0.8px; }
 .mc-of { font-size: 12px; font-weight: 400; color: var(--t3); margin-top: 3px; }
-.mc-icon { width: 30px; height: 30px; border-radius: var(--rsm); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.mc-icon { width: 30px; height: 30px; border-radius: var(--rsm); display: flex; align-items: center; justify-content: center; font-size: 14px; }
 .mc-icon.p { background: var(--hpu-lav); color: var(--hpu); }
 .mc-icon.o { background: var(--org-bg); color: var(--org); }
 .mc-lbl { font-size: 11px; font-weight: 500; color: var(--t2); margin-bottom: 10px; }
@@ -105,7 +106,7 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 
 .tdiv { display: flex; align-items: center; gap: 8px; padding: 8px 18px 2px; }
 .tdiv-line { flex: 1; height: 1px; background: rgba(194,90,10,.2); }
-.tdiv-lbl { font-size: 10px; font-weight: 500; color: var(--org); white-space: nowrap; }
+.tdiv-lbl { font-size: 10px; font-weight: 500; color: var(--org); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
 
 .pi { display: flex; align-items: flex-start; gap: 9px; padding: 9px 18px; transition: background .1s; cursor: default; }
 .pi + .pi { border-top: 1px solid rgba(0,0,0,0.04); }
@@ -139,40 +140,6 @@ body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialia
 .qt-st { font-size: 10px; font-weight: 500; color: var(--t3); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-
-svg {
-  display: inline-block;
-  vertical-align: middle;
-  color: currentColor;
-}
-
-.icon-sm {
-  width: 14px;
-  height: 14px;
-}
-
-.mc-icon svg {
-  width: 16px;
-  height: 16px;
-}
-
-.wc-title svg {
-  width: 13px;
-  height: 13px;
-  margin-right: 3px;
-}
-
-.qt-ico svg {
-  width: 13px;
-  height: 13px;
-}
-
-.pdep svg,
-.punb svg,
-.tdiv-lbl svg {
-  width: 10px;
-  height: 10px;
-}
 </style>
 </head>
 <body>
@@ -261,9 +228,9 @@ function cntRemaining(arr) { return arr.filter(x => x.status === S.NS).length; }
 function renderItem(item, idx, showUnblocks) {
   const meta = [];
   if (item.note) meta.push(`<div class="pnote">${item.note}</div>`);
-  if (item.blockedBy) meta.push(`<div class="pdep"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><rect x="3" y="4" width="18" height="2"/><path d="M9 19h6"/></svg> ${item.blockedBy}</div>`);
+  if (item.blockedBy) meta.push(`<div class="pdep"><i class="fas fa-lock"></i> ${item.blockedBy}</div>`);
   if (showUnblocks && item.unblocks && item.unblocks.length) {
-    meta.push(`<div class="punb"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><rect x="3" y="4" width="18" height="2"/><path d="M9 19h6"/></svg> Unblocks: ${item.unblocks.join(', ')}</div>`);
+    meta.push(`<div class="punb"><i class="fas fa-unlock"></i> Unblocks: ${item.unblocks.join(', ')}</div>`);
   }
   const lbl = SC[item.status]?.lbl || '';
   return `<div class="pi ${item.status}" role="listitem">
@@ -303,7 +270,7 @@ function render() {
     ...pat1.map((p, i) => renderItem(p, i + 1, false)),
     `<div class="tdiv" role="separator">
       <div class="tdiv-line"></div>
-      <span class="tdiv-lbl"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="2"/><circle cx="12" cy="3" r="1"/><circle cx="12" cy="20" r="1"/></svg> Blocked by Dependencies</span>
+      <span class="tdiv-lbl"><i class="fas fa-circle-minus"></i> Blocked by Dependencies</span>
       <div class="tdiv-line"></div>
     </div>`,
     ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
@@ -339,7 +306,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${bDone}</div><div class="mc-of">of ${bTot} blocks</div></div>
-              <div class="mc-icon p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+              <div class="mc-icon p"><i class="fas fa-cube"></i></div>
             </div>
             <div class="mc-lbl">Custom Blocks</div>
             <div class="mc-bar">
@@ -351,7 +318,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${pDone}</div><div class="mc-of">of ${pTot} patterns</div></div>
-              <div class="mc-icon p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+              <div class="mc-icon p"><i class="fas fa-th"></i></div>
             </div>
             <div class="mc-lbl">Block Patterns</div>
             <div class="mc-bar">
@@ -363,7 +330,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${plDone}</div><div class="mc-of">of ${plTot} plugins</div></div>
-              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 1v6m4.22-4.22l-4.24 4.24m6 4.22h-6m0 6v-6m-4.22 4.22l4.24-4.24m-6-4.22h6"/></svg></div>
+              <div class="mc-icon o"><i class="fas fa-plug"></i></div>
             </div>
             <div class="mc-lbl">Plugins</div>
             <div class="mc-bar">
@@ -375,7 +342,7 @@ function render() {
           <div class="card mc">
             <div class="mc-top">
               <div><div class="mc-big">${qtDone}</div><div class="mc-of">of ${qtTot} templates</div></div>
-              <div class="mc-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+              <div class="mc-icon o"><i class="fas fa-list"></i></div>
             </div>
             <div class="mc-lbl">Query Templates</div>
             <div class="mc-bar">
@@ -441,7 +408,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Custom Blocks</div>
+              <div class="wc-title"><i class="fas fa-cube"></i> Custom Blocks</div>
               <span class="wc-cnt">${bRemaining} remaining</span>
             </div>
             <div class="wc-body" role="list">
@@ -451,7 +418,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Block Patterns</div>
+              <div class="wc-title"><i class="fas fa-th"></i> Block Patterns</div>
               <span class="wc-cnt">${pRemaining} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
@@ -459,7 +426,7 @@ function render() {
 
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
-              <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> Plugins + Foundation</div>
+              <div class="wc-title"><i class="fas fa-cogs"></i> Plugins + Foundation</div>
               <span class="wc-cnt">${plRemaining + fRemaining} items</span>
             </div>
             <div class="wc-body">
@@ -478,7 +445,7 @@ function render() {
         <div class="g5">
           ${QUERY_TEMPLATES.map(q => `
             <div class="qtc">
-              <div class="qt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+              <div class="qt-ico"><i class="fas fa-database"></i></div>
               <div class="qt-name">${q.name}</div>
               <div class="qt-st">${SC[q.status]?.lbl || 'Not started'}</div>
             </div>`).join('')}
