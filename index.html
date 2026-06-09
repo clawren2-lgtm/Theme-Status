@@ -202,12 +202,12 @@ const BLOCKS_DONE = 23;
 const PATTERNS = [
   { name:'Media Gallery',          status:S.IP, blockedBy:null,                        tier:1 },
   { name:'KPI',                    status:S.IP, blockedBy:null,                        tier:1 },
+  { name:'KPIs',                   status:S.IP, blockedBy:null,                        tier:1 },
   { name:'Requirements',           status:S.D, blockedBy:null,                         tier:1 },
   { name:'Full Width Video',       status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Major Minor Landing',    status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Quotes',                 status:S.PL, blockedBy:null,                        tier:1 },
   { name:'Internships + Careers',  status:S.PL, blockedBy:null,                        tier:1 },
-  { name:'KPIs',                   status:S.IP, blockedBy:null,                        tier:2 },
   { name:'Welcome Message',        status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
   { name:'Related Faculty Staff',  status:S.BL, blockedBy:'Faculty Staff Block',        tier:2 },
   { name:'Keep Browsing',          status:S.BL, blockedBy:'Pattern-Inserter + Links',   tier:2 },
@@ -256,6 +256,7 @@ const SC = {
 
 function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
 function cntDone(arr) { return arr.filter(x => x.status === S.D).length; }
+function cntRemaining(arr) { return arr.filter(x => x.status === S.NS).length; }
 
 function renderItem(item, idx, showUnblocks) {
   const meta = [];
@@ -287,6 +288,11 @@ function render() {
   const allPct  = pct(allDone, allTot);
 
   const cTot = plTot + fTot, cDone = plDone + fDone;
+
+  const bRemaining = cntRemaining(BLOCKS);
+  const pRemaining = cntRemaining(PATTERNS);
+  const plRemaining = cntRemaining(PLUGINS);
+  const fRemaining = cntRemaining(FOUNDATION);
 
   const today = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 
@@ -436,7 +442,7 @@ function render() {
           <div class="card" role="region" aria-label="Ian's block queue">
             <div class="wc-head">
               <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Custom Blocks</div>
-              <span class="wc-cnt">${BLOCKS.length} remaining</span>
+              <span class="wc-cnt">${bRemaining} remaining</span>
             </div>
             <div class="wc-body" role="list">
               ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
@@ -446,7 +452,7 @@ function render() {
           <div class="card" role="region" aria-label="Jasani's pattern queue">
             <div class="wc-head">
               <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Block Patterns</div>
-              <span class="wc-cnt">${PATTERNS.length} remaining</span>
+              <span class="wc-cnt">${pRemaining} remaining</span>
             </div>
             <div class="wc-body" role="list">${patHtml}</div>
           </div>
@@ -454,7 +460,7 @@ function render() {
           <div class="card" role="region" aria-label="Corey's queue">
             <div class="wc-head">
               <div class="wc-title"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> Plugins + Foundation</div>
-              <span class="wc-cnt">${PLUGINS.length + FOUNDATION.length} items</span>
+              <span class="wc-cnt">${plRemaining + fRemaining} items</span>
             </div>
             <div class="wc-body">
               <div class="sh first" role="heading" aria-level="3">Plugins</div>
