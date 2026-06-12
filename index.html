@@ -42,7 +42,6 @@
     html, body { background: var(--surf); min-height: 100vh; }
     body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialiased; padding-bottom: 52px; }
     #app { max-width: 1300px; margin: 0 auto; }
-
     /* Header */
     .hdr { background: var(--wh); padding: 20px 28px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 rgba(0,0,0,0.07); }
     .hdr-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
@@ -56,7 +55,6 @@
     .bar-track { flex: 1; height: 5px; background: var(--hpu-lav); border-radius: 100px; overflow: hidden; }
     .bar-fill { height: 100%; background: var(--hpu); border-radius: 100px; transition: width 1s cubic-bezier(.4,0,.2,1); }
     .hdr-pct { font-size: 13px; font-weight: 600; color: var(--hpu); min-width: 40px; text-align: right; }
-
     /* Layout */
     .body { padding: 18px 28px 0; display: flex; flex-direction: column; gap: 16px; }
     .sec-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--t3); margin-bottom: 8px; }
@@ -65,7 +63,6 @@
     .g5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
     .wg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: stretch; }
     .card { background: var(--wh); border-radius: var(--rlg); box-shadow: var(--sh); overflow: hidden; }
-
     /* Metric cards */
     .mc { padding: 16px 18px; }
     .mc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
@@ -82,7 +79,6 @@
     .mb-fill.o { background: var(--org); }
     .mc-pct { font-size: 11px; font-weight: 600; color: var(--hpu); min-width: 28px; text-align: right; }
     .mc-pct.o { color: var(--org); }
-
     /* Person cards */
     .pc { padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
     .pc-chart { position: relative; width: 66px; height: 66px; flex-shrink: 0; }
@@ -96,7 +92,6 @@
     .ps-n { font-size: 17px; font-weight: 600; color: var(--hpu); line-height: 1; letter-spacing: -0.3px; }
     .ps-n.o { color: var(--org); }
     .ps-l { font-size: 10px; font-weight: 400; color: var(--t3); margin-top: 1px; }
-
     /* Work queue cards */
     .wg .card { display: flex; flex-direction: column; }
     .wc-head { padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
@@ -106,12 +101,10 @@
     .wc-body { flex: 1; }
     .sh { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--t3); padding: 9px 18px 6px; background: rgba(0,0,0,0.015); border-top: 1px solid rgba(0,0,0,0.05); }
     .sh.first { border-top: none; }
-
     /* Blocked divider */
     .tdiv { display: flex; align-items: center; gap: 8px; padding: 8px 18px 2px; }
     .tdiv-line { flex: 1; height: 1px; background: rgba(194,90,10,.2); }
     .tdiv-lbl { font-size: 10px; font-weight: 500; color: var(--org); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
-
     /* Queue items */
     .pi { display: flex; align-items: flex-start; gap: 9px; padding: 9px 18px; transition: background .1s; cursor: default; }
     .pi + .pi { border-top: 1px solid rgba(0,0,0,0.04); }
@@ -141,20 +134,17 @@
     .pi.needs-review .sbadge { color: var(--nr); }
     .pi.needs-review         { background: rgba(254,249,195,0.35); }
     .pi.needs-review:hover   { background: rgba(254,249,195,0.6); }
-
     /* Query template tiles */
     .qtc { background: var(--wh); border-radius: var(--rmd); box-shadow: var(--sh); padding: 13px; }
     .qt-ico { width: 26px; height: 26px; border-radius: var(--rsm); background: var(--hpu-lav); color: var(--hpu); display: flex; align-items: center; justify-content: center; font-size: 11px; margin-bottom: 8px; }
     .qt-name { font-size: 11px; font-weight: 500; color: var(--t1); line-height: 1.4; margin-bottom: 6px; }
     .qt-st { font-size: 10px; font-weight: 500; color: var(--t3); }
-
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
   </style>
 </head>
 <body>
   <h2 class="sr-only">HPU Theme Build Project Dashboard</h2>
   <div id="app"></div>
-
   <script>
     // ============================================================
     // STATE & DATA
@@ -168,13 +158,12 @@
       OH: 'on-hold',
       NR: 'needs-review',
     };
-
     const BLOCKS = [
-      { name: 'Faculty Staff',       status: S.IP, note: null,                              unblocks: ['Welcome Message', 'Related Faculty Staff'] },
-      { name: 'Faculty Staff Group', status: S.IP, note: null,                              unblocks: [] },
-      { name: 'Icons',               status: S.OH, note: 'On hold',                         unblocks: ['How to Apply Steps'] },
-      { name: 'Tab Item',            status: S.NS, note: 'Build with Tabbed Content',       unblocks: [] },
-      { name: 'Pagination',          status: S.NS, note: 'Sean has prior work',             unblocks: ['Query Templates'] },
+      { name: 'Faculty Staff',       status: S.D,  note: null,                              unblocks: ['Welcome Message', 'Related Faculty Staff'] },
+      { name: 'Faculty Staff Group', status: S.D,  note: null,                              unblocks: [] },
+      { name: 'Icons',               status: S.OH, note: 'On hold',                         unblocks: [] },
+      { name: 'Tabs',                status: S.D,  note: null,                              unblocks: [] },
+      { name: 'Pagination',          status: S.D,  note: 'Sean has prior work',             unblocks: [] },
       { name: 'Days Until',          status: S.NS, note: 'Confirm vs Countdown pattern',    unblocks: [] },
       { name: 'Anchors Menu',        status: S.NS, note: null,                              unblocks: [] },
       { name: 'Modal Video',         status: S.NS, note: 'Confirm link to video patterns',  unblocks: [] },
@@ -184,23 +173,21 @@
       { name: 'KPI',                 status: S.D,  note: 'Complete',                        unblocks: ['KPI Pattern', 'KPIs Pattern'] },
     ];
     const BLOCKS_DONE = 23;
-
     const PATTERNS = [
-      { name: 'Full Width Video',       status: S.IP, blockedBy: null,                      tier: 1 },
-      { name: 'Major Minor Landing',    status: S.NR, blockedBy: null,                      tier: 1 },
-      { name: 'Quotes',                 status: S.NR, blockedBy: null,                      tier: 1 },
-      { name: 'Internships + Careers',  status: S.PL, blockedBy: null,                      tier: 1 },
-      { name: 'KPI',                    status: S.D,  blockedBy: null,                      tier: 1 },
-      { name: 'KPIs',                   status: S.D,  blockedBy: null,                      tier: 1 },
-      { name: 'Requirements',           status: S.D,  blockedBy: null,                      tier: 1 },
-      { name: 'Welcome Message',        status: S.BL, blockedBy: 'Faculty Staff Block',     tier: 2 },
-      { name: 'Related Faculty Staff',  status: S.BL, blockedBy: 'Faculty Staff Block',     tier: 2 },
-      { name: 'Keep Browsing',          status: S.BL, blockedBy: 'Pattern-Inserter + Links',tier: 2 },
-      { name: 'Services + Resources',   status: S.BL, blockedBy: 'Pattern-Inserter + Links',tier: 2 },
-      { name: 'How to Apply Steps',     status: S.BL, blockedBy: 'Icons + Pattern-Inserter',tier: 2 },
+      { name: 'Full Width Video',       status: S.IP, blockedBy: null,  tier: 1 },
+      { name: 'Major Minor Landing',    status: S.NR, blockedBy: null,  tier: 1 },
+      { name: 'Quotes',                 status: S.NR, blockedBy: null,  tier: 1 },
+      { name: 'Internships + Careers',  status: S.PL, blockedBy: null,  tier: 1 },
+      { name: 'KPI',                    status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'KPIs',                   status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'Requirements',           status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'Welcome Message',        status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'Related Faculty Staff',  status: S.NS, blockedBy: null,  tier: 1 },
+      { name: 'Keep Browsing',          status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'Services + Resources',   status: S.D,  blockedBy: null,  tier: 1 },
+      { name: 'How to Apply Steps',     status: S.NS, blockedBy: null,  tier: 1 },
     ];
     const PATTERNS_DONE = 17;
-
     const PLUGINS = [
       { name: 'Degrees + Programs Search', status: S.NS },
       { name: 'Department Listing',        status: S.NS },
@@ -208,7 +195,6 @@
       { name: 'Faculty Staff Listing',     status: S.NS },
       { name: 'Schools + Colleges',        status: S.NS },
     ];
-
     const FOUNDATION = [
       { name: 'Global Styles + Design Principles', status: S.IP, note: 'Gates 15 done patterns from shipping' },
       { name: 'Role Management System',            status: S.NS, note: 'Required before block restrictions' },
@@ -218,7 +204,6 @@
       { name: 'JS Cleanup',                        status: S.NS, note: null },
       { name: 'Plugin Cleanup',                    status: S.NS, note: null },
     ];
-
     const QUERY_TEMPLATES = [
       { name: 'News Listing T4 Filter', status: S.NS },
       { name: 'News Listing T6 Filter', status: S.NS },
@@ -226,7 +211,6 @@
       { name: 'Related Content',        status: S.NS },
       { name: 'Related News',           status: S.NS },
     ];
-
     // ============================================================
     // RENDER ENGINE
     // ============================================================
@@ -239,11 +223,9 @@
       'on-hold':       { lbl: 'On Hold' },
       'needs-review':  { lbl: 'Needs Review' },
     };
-
     function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
     function countStatus(arr, s) { return arr.filter(x => x.status === s).length; }
     function countRemaining(arr) { return arr.filter(x => x.status !== S.D).length; }
-
     function renderItem(item, idx, showUnblocks) {
       const meta = [];
       if (item.note) meta.push(`<div class="pnote">${item.note}</div>`);
@@ -263,33 +245,30 @@
           ${lbl ? `<span class="sbadge">${lbl}</span>` : ''}
         </div>`;
     }
-
     function render() {
       const bTot  = BLOCKS_DONE + BLOCKS.length,   bDone  = BLOCKS_DONE + countStatus(BLOCKS, S.D);
       const pTot  = PATTERNS_DONE + PATTERNS.length, pDone = PATTERNS_DONE + countStatus(PATTERNS, S.D);
       const plTot = PLUGINS.length,          plDone = countStatus(PLUGINS, S.D);
       const qtTot = QUERY_TEMPLATES.length,  qtDone = countStatus(QUERY_TEMPLATES, S.D);
       const fTot  = FOUNDATION.length,       fDone  = countStatus(FOUNDATION, S.D);
-
       const allTot = bTot + pTot + plTot + qtTot + fTot;
       const allDone = bDone + pDone + plDone + qtDone + fDone;
       const allPct = pct(allDone, allTot);
-
       const cTot = plTot + fTot, cDone = plDone + fDone;
       const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
       const pat1 = PATTERNS.filter(p => p.tier === 1);
       const pat2 = PATTERNS.filter(p => p.tier === 2);
       const patHtml = [
         ...pat1.map((p, i) => renderItem(p, i + 1, false)),
-        `<div class="tdiv" role="separator">
-          <div class="tdiv-line"></div>
-          <span class="tdiv-lbl"><i class="fas fa-circle-minus"></i> Blocked by Dependencies</span>
-          <div class="tdiv-line"></div>
-        </div>`,
-        ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
+        ...(pat2.length > 0 ? [
+          `<div class="tdiv" role="separator">
+            <div class="tdiv-line"></div>
+            <span class="tdiv-lbl"><i class="fas fa-circle-minus"></i> Blocked by Dependencies</span>
+            <div class="tdiv-line"></div>
+          </div>`,
+          ...pat2.map((p, i) => renderItem(p, pat1.length + i + 1, false)),
+        ] : []),
       ].join('');
-
       document.getElementById('app').innerHTML = `
         <div class="hdr" role="banner">
           <div class="hdr-top">
@@ -310,9 +289,7 @@
             <span class="hdr-pct">${allPct}% &middot; ${allDone} of ${allTot}</span>
           </div>
         </div>
-
         <div class="body">
-
           <div role="region" aria-label="Progress by track">
             <div class="sec-lbl">Progress by Track</div>
             <div class="g4">
@@ -362,7 +339,6 @@
               </div>
             </div>
           </div>
-
           <div role="region" aria-label="Team">
             <div class="sec-lbl">Team</div>
             <div class="g3">
@@ -410,11 +386,9 @@
               </div>
             </div>
           </div>
-
           <div role="region" aria-label="Work queues">
             <div class="sec-lbl">Work Queues &middot; Priority Order</div>
             <div class="wg">
-
               <div class="card" role="region" aria-label="Ian's block queue">
                 <div class="wc-head">
                   <div class="wc-title"><i class="fas fa-cube"></i> Custom Blocks</div>
@@ -424,7 +398,6 @@
                   ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
                 </div>
               </div>
-
               <div class="card" role="region" aria-label="Jasani's pattern queue">
                 <div class="wc-head">
                   <div class="wc-title"><i class="fas fa-th"></i> Block Patterns</div>
@@ -432,7 +405,6 @@
                 </div>
                 <div class="wc-body" role="list">${patHtml}</div>
               </div>
-
               <div class="card" role="region" aria-label="Corey's queue">
                 <div class="wc-head">
                   <div class="wc-title"><i class="fas fa-cogs"></i> Plugins + Foundation</div>
@@ -445,10 +417,8 @@
                   <div role="list">${FOUNDATION.map((f, i) => renderItem({ ...f, blockedBy: null }, i + 1, false)).join('')}</div>
                 </div>
               </div>
-
             </div>
           </div>
-
           <div role="region" aria-label="Query templates">
             <div class="sec-lbl">Query Templates &middot; ${countRemaining(QUERY_TEMPLATES)} remaining</div>
             <div class="g5">
@@ -460,10 +430,8 @@
                 </div>`).join('')}
             </div>
           </div>
-
         </div>
       `;
-
       function mkChart(id, done, tot, isOrg) {
         const el = document.getElementById(id);
         if (!el) return;
@@ -486,12 +454,10 @@
           }
         });
       }
-
       mkChart('ci', bDone, bTot, false);
       mkChart('cj', pDone, pTot, false);
       mkChart('cc', cDone, cTot, true);
     }
-
     render();
   </script>
 </body>
