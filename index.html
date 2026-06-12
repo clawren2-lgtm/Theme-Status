@@ -223,6 +223,16 @@
       'on-hold':       { lbl: 'On Hold' },
       'needs-review':  { lbl: 'Needs Review' },
     };
+    const STATUS_ORDER = {
+      'in-progress':  0,
+      'needs-review': 1,
+      'not-started':  2,
+      'planning':     3,
+      'blocked':      4,
+      'on-hold':      5,
+      'done':         6,
+    };
+    function sortItems(arr) { return [...arr].sort((a, b) => (STATUS_ORDER[a.status] ?? 99) - (STATUS_ORDER[b.status] ?? 99)); }
     function pct(d, t) { return t === 0 ? 0 : Math.round((d / t) * 100); }
     function countStatus(arr, s) { return arr.filter(x => x.status === s).length; }
     function countRemaining(arr) { return arr.filter(x => x.status !== S.D).length; }
@@ -256,8 +266,8 @@
       const allPct = pct(allDone, allTot);
       const cTot = plTot + fTot, cDone = plDone + fDone;
       const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      const pat1 = PATTERNS.filter(p => p.tier === 1);
-      const pat2 = PATTERNS.filter(p => p.tier === 2);
+      const pat1 = sortItems(PATTERNS.filter(p => p.tier === 1));
+      const pat2 = sortItems(PATTERNS.filter(p => p.tier === 2));
       const patHtml = [
         ...pat1.map((p, i) => renderItem(p, i + 1, false)),
         ...(pat2.length > 0 ? [
@@ -395,7 +405,7 @@
                   <span class="wc-cnt">${countStatus(BLOCKS, S.IP)} in progress &middot; ${countRemaining(BLOCKS)} remaining</span>
                 </div>
                 <div class="wc-body" role="list">
-                  ${BLOCKS.map((b, i) => renderItem(b, i + 1, true)).join('')}
+                  ${sortItems(BLOCKS).map((b, i) => renderItem(b, i + 1, true)).join('')}
                 </div>
               </div>
               <div class="card" role="region" aria-label="Jasani's pattern queue">
@@ -412,9 +422,9 @@
                 </div>
                 <div class="wc-body">
                   <div class="sh first" role="heading" aria-level="3">Plugins</div>
-                  <div role="list">${PLUGINS.map((p, i) => renderItem(p, i + 1, false)).join('')}</div>
+                  <div role="list">${sortItems(PLUGINS).map((p, i) => renderItem(p, i + 1, false)).join('')}</div>
                   <div class="sh" role="heading" aria-level="3">Foundation + Governance</div>
-                  <div role="list">${FOUNDATION.map((f, i) => renderItem({ ...f, blockedBy: null }, i + 1, false)).join('')}</div>
+                  <div role="list">${sortItems(FOUNDATION).map((f, i) => renderItem({ ...f, blockedBy: null }, i + 1, false)).join('')}</div>
                 </div>
               </div>
             </div>
