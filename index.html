@@ -42,7 +42,6 @@
     html, body { background: var(--surf); min-height: 100vh; }
     body { font-family: var(--f); color: var(--t1); -webkit-font-smoothing: antialiased; padding-bottom: 52px; }
     #app { max-width: 1300px; margin: 0 auto; }
-    /* Header */
     .hdr { background: var(--wh); padding: 20px 28px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 rgba(0,0,0,0.07); }
     .hdr-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
     .hdr-title { font-size: 19px; font-weight: 600; color: var(--hpu); letter-spacing: -0.4px; line-height: 1.1; }
@@ -55,7 +54,6 @@
     .bar-track { flex: 1; height: 5px; background: var(--hpu-lav); border-radius: 100px; overflow: hidden; }
     .bar-fill { height: 100%; background: var(--hpu); border-radius: 100px; transition: width 1s cubic-bezier(.4,0,.2,1); }
     .hdr-pct { font-size: 13px; font-weight: 600; color: var(--hpu); min-width: 40px; text-align: right; }
-    /* Layout */
     .body { padding: 18px 28px 0; display: flex; flex-direction: column; gap: 16px; }
     .sec-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--t3); margin-bottom: 8px; }
     .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -63,7 +61,6 @@
     .g5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
     .wg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: stretch; }
     .card { background: var(--wh); border-radius: var(--rlg); box-shadow: var(--sh); overflow: hidden; }
-    /* Metric cards */
     .mc { padding: 16px 18px; }
     .mc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
     .mc-big { font-size: 28px; font-weight: 600; color: var(--t1); line-height: 1; letter-spacing: -0.8px; }
@@ -79,7 +76,6 @@
     .mb-fill.o { background: var(--org); }
     .mc-pct { font-size: 11px; font-weight: 600; color: var(--hpu); min-width: 28px; text-align: right; }
     .mc-pct.o { color: var(--org); }
-    /* Person cards */
     .pc { padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
     .pc-chart { position: relative; width: 66px; height: 66px; flex-shrink: 0; }
     .pc-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
@@ -92,7 +88,6 @@
     .ps-n { font-size: 17px; font-weight: 600; color: var(--hpu); line-height: 1; letter-spacing: -0.3px; }
     .ps-n.o { color: var(--org); }
     .ps-l { font-size: 10px; font-weight: 400; color: var(--t3); margin-top: 1px; }
-    /* Work queue cards */
     .wg .card { display: flex; flex-direction: column; }
     .wc-head { padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
     .wc-title { font-size: 13px; font-weight: 600; color: var(--t1); display: flex; align-items: center; gap: 8px; letter-spacing: -0.1px; }
@@ -101,11 +96,9 @@
     .wc-body { flex: 1; }
     .sh { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--t3); padding: 9px 18px 6px; background: rgba(0,0,0,0.015); border-top: 1px solid rgba(0,0,0,0.05); }
     .sh.first { border-top: none; }
-    /* Blocked divider */
     .tdiv { display: flex; align-items: center; gap: 8px; padding: 8px 18px 2px; }
     .tdiv-line { flex: 1; height: 1px; background: rgba(194,90,10,.2); }
     .tdiv-lbl { font-size: 10px; font-weight: 500; color: var(--org); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
-    /* Queue items */
     .pi { display: flex; align-items: flex-start; gap: 9px; padding: 9px 18px; transition: background .1s; cursor: default; }
     .pi + .pi { border-top: 1px solid rgba(0,0,0,0.04); }
     .pi:hover { background: rgba(0,0,0,0.012); }
@@ -134,7 +127,6 @@
     .pi.needs-review .sbadge { color: var(--nr); }
     .pi.needs-review         { background: rgba(254,249,195,0.35); }
     .pi.needs-review:hover   { background: rgba(254,249,195,0.6); }
-    /* Query template tiles */
     .qtc { background: var(--wh); border-radius: var(--rmd); box-shadow: var(--sh); padding: 13px; }
     .qt-ico { width: 26px; height: 26px; border-radius: var(--rsm); background: var(--hpu-lav); color: var(--hpu); display: flex; align-items: center; justify-content: center; font-size: 11px; margin-bottom: 8px; }
     .qt-name { font-size: 11px; font-weight: 500; color: var(--t1); line-height: 1.4; margin-bottom: 6px; }
@@ -146,9 +138,6 @@
   <h2 class="sr-only">HPU Theme Build Project Dashboard</h2>
   <div id="app"></div>
   <script>
-    // ============================================================
-    // STATE & DATA
-    // ============================================================
     const S = {
       D:  'done',
       IP: 'in-progress',
@@ -163,15 +152,15 @@
       { name: 'Faculty Staff Group', status: S.D,  note: null,                              unblocks: [] },
       { name: 'Icons',               status: S.OH, note: 'On hold',                         unblocks: [] },
       { name: 'Tabs',                status: S.D,  note: null,                              unblocks: [] },
-      { name: 'Pagination',          status: S.D,  note: 'Sean has prior work',             unblocks: [] },
+      { name: 'Pagination',          status: S.IP, note: null,                              unblocks: [] },
       { name: 'Days Until',          status: S.NS, note: 'Confirm vs Countdown pattern',    unblocks: [] },
-      { name: 'Anchors Menu',        status: S.D , note: null,                              unblocks: [] },
-      { name: 'Modal Video',         status: S.NS, note: 'Confirm link to video patterns',  unblocks: [] },
-      { name: 'Media Gallery',       status: S.NS, note: null,                              unblocks: [] },
+      { name: 'Anchors Menu',        status: S.D,  note: null,                              unblocks: [] },
+      { name: 'Modal Video',         status: S.D,  note: null,                              unblocks: [] },
+      { name: 'Media Gallery',       status: S.D,  note: null,                              unblocks: [] },
       { name: 'Tabbed Content',      status: S.D,  note: null,                              unblocks: [] },
       { name: 'KPI Group',           status: S.D,  note: null,                              unblocks: [] },
       { name: 'KPI',                 status: S.D,  note: 'Complete',                        unblocks: ['KPI Pattern', 'KPIs Pattern'] },
-      { name: 'Full Width Video',    status: S.IP, note: 'Needs modal',                      unblocks: [] },
+      { name: 'Full Width Video',    status: S.IP, note: 'Needs modal',                     unblocks: [] },
       { name: 'Quotes',              status: S.NR, note: 'Splide plugin review',             unblocks: [] },
     ];
     const BLOCKS_DONE = 23;
@@ -211,9 +200,6 @@
       { name: 'Related Content',        status: S.NS },
       { name: 'Related News',           status: S.NS },
     ];
-    // ============================================================
-    // RENDER ENGINE
-    // ============================================================
     const SC = {
       'done':          { lbl: 'Done' },
       'in-progress':   { lbl: 'In Progress' },
